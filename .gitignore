@@ -1,0 +1,7 @@
+node_modules
+dist
+.env
+.superpowers
+apps/api/dev.sqlite
+apps/miniapp/miniprogram_npm
+
