@@ -1,9 +1,10 @@
-import { describe, expect, it } from 'vitest'
-import { defaultGenerateParams } from './contracts'
+import assert from 'node:assert/strict'
+import { describe, it } from 'node:test'
+import { defaultGenerateParams } from './contracts.ts'
 
 describe('defaultGenerateParams', () => {
   it('starts with a square grid and palette-limited defaults', () => {
-    expect(defaultGenerateParams()).toMatchObject({
+    assert.deepStrictEqual(defaultGenerateParams(), {
       gridWidth: 64,
       gridHeight: 64,
       colorCount: 16,
