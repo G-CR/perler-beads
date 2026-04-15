@@ -23,9 +23,35 @@ export type DetailLevel = z.infer<typeof detailLevelSchema>
 export type BackgroundMode = z.infer<typeof backgroundModeSchema>
 export type GenerateParams = z.infer<typeof generateParamsSchema>
 
-export type PaletteItem = {
-  kind: 'background' | 'blank' | 'bead'
+export type ReservedPaletteItem = {
+  kind: 'background' | 'blank'
   hex: string
+}
+
+export type BeadPaletteItem = {
+  kind: 'bead'
+  hex: string
+}
+
+export type PaletteItem = ReservedPaletteItem | BeadPaletteItem
+
+export type ReservedPalette = [ReservedPaletteItem, ...BeadPaletteItem[]]
+
+export function assertReservedPaletteSlot(palette: PaletteItem[]): asserts palette is ReservedPalette {
+  if (palette.length === 0) {
+    throw new Error('Invalid palette: slot 0 is required and must be background or blank')
+  }
+
+  const slotZero = palette[0]
+  if (slotZero.kind !== 'background' && slotZero.kind !== 'blank') {
+    throw new Error('Invalid palette: slot 0 must be background or blank')
+  }
+
+  for (let i = 1; i < palette.length; i += 1) {
+    if (palette[i]?.kind !== 'bead') {
+      throw new Error('Invalid palette: reserved kinds are only allowed at slot 0')
+    }
+  }
 }
 
 export type GridData = number[]
@@ -39,15 +65,15 @@ export type PatternResult = {
   width: number
   height: number
   cells: GridData
-  palette: PaletteItem[]
+  palette: ReservedPalette
   colorStats: ColorStat[]
-  previewPng: Buffer
+  previewBuffer: Buffer
 }
 
 export type ExportSheetInput = {
   width: number
   height: number
   cells: GridData
-  palette: PaletteItem[]
+  palette: ReservedPalette
   colorStats: ColorStat[]
 }

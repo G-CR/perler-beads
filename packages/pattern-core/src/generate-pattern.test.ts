@@ -15,6 +15,7 @@ test('generatePattern reserves palette slot 0 for blank when backgroundMode is r
   assert.equal(result.palette[0]?.kind, 'blank')
   assert.equal(result.colorStats.every((item) => item.paletteIndex !== 0), true)
   assert.equal(result.colorStats.some((item) => item.paletteIndex === 0), false)
+  assert.equal(Buffer.isBuffer(result.previewBuffer), true)
 })
 
 test('generatePattern keeps background in stats when backgroundMode is keep', async () => {
@@ -30,4 +31,5 @@ test('generatePattern keeps background in stats when backgroundMode is keep', as
   assert.equal(result.palette[0]?.kind, 'background')
   assert.equal(result.cells.some((cell) => cell === 0), true)
   assert.equal(result.colorStats.some((item) => item.paletteIndex === 0), true)
+  assert.equal(Buffer.isBuffer(result.previewBuffer), true)
 })

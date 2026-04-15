@@ -6,7 +6,8 @@ import type {
   GridData,
   PaletteItem,
   PatternResult,
-} from '../../shared/src/index.ts'
+  ReservedPalette,
+} from '@perler/shared'
 
 export type {
   BackgroundMode,
@@ -16,6 +17,7 @@ export type {
   GridData,
   PaletteItem,
   PatternResult,
+  ReservedPalette,
 }
 
 export type GeneratePatternInput = {

@@ -1,8 +1,10 @@
+import { assertReservedPaletteSlot } from '@perler/shared'
 import type {
   ColorStat,
   GeneratePatternInput,
   PaletteItem,
   PatternResult,
+  ReservedPalette,
 } from './types.ts'
 
 const BASE_PALETTE = [
@@ -19,7 +21,7 @@ const BASE_PALETTE = [
 function buildPaletteWithBackground(
   colorCount: number,
   mode: GeneratePatternInput['backgroundMode'],
-): PaletteItem[] {
+): ReservedPalette {
   const palette: PaletteItem[] = [
     { kind: mode === 'keep' ? 'background' : 'blank', hex: '#ffffff' },
   ]
@@ -29,6 +31,7 @@ function buildPaletteWithBackground(
       hex: BASE_PALETTE[i % BASE_PALETTE.length],
     })
   }
+  assertReservedPaletteSlot(palette)
   return palette
 }
 
@@ -67,11 +70,11 @@ function countBeads(
     .map(([paletteIndex, count]) => ({ paletteIndex, count }))
 }
 
-async function renderPreviewPng(input: {
+async function renderPreviewBuffer(input: {
   width: number
   height: number
   cells: number[]
-  palette: PaletteItem[]
+  palette: ReservedPalette
 }): Promise<Buffer> {
   const payload = JSON.stringify({
     width: input.width,
@@ -84,6 +87,7 @@ async function renderPreviewPng(input: {
 
 export async function generatePattern(input: GeneratePatternInput): Promise<PatternResult> {
   const palette = buildPaletteWithBackground(input.colorCount, input.backgroundMode)
+  assertReservedPaletteSlot(palette)
   const cells = quantizeIntoGrid(input, palette)
   const colorStats = countBeads(cells, {
     excludePaletteIndex: palette[0]?.kind === 'blank' ? 0 : undefined,
@@ -95,7 +99,7 @@ export async function generatePattern(input: GeneratePatternInput): Promise<Patt
     cells,
     palette,
     colorStats,
-    previewPng: await renderPreviewPng({
+    previewBuffer: await renderPreviewBuffer({
       width: input.gridWidth,
       height: input.gridHeight,
       cells,

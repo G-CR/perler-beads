@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
-import { defaultGenerateParams, generateParamsSchema } from './index.ts'
+import {
+  assertReservedPaletteSlot,
+  defaultGenerateParams,
+  generateParamsSchema,
+} from './index.ts'
 
 describe('defaultGenerateParams', () => {
   it('starts with a square grid and palette-limited defaults', () => {
@@ -27,6 +31,32 @@ describe('generateParamsSchema', () => {
         ...defaultGenerateParams(),
         gridWidth: 7,
       })
+    })
+  })
+})
+
+describe('assertReservedPaletteSlot', () => {
+  it('accepts palette whose slot 0 is reserved and other slots are beads', () => {
+    assert.doesNotThrow(() => {
+      assertReservedPaletteSlot([
+        { kind: 'background', hex: '#ffffff' },
+        { kind: 'bead', hex: '#000000' },
+      ])
+    })
+  })
+
+  it('rejects palette whose slot 0 is not reserved kind', () => {
+    assert.throws(() => {
+      assertReservedPaletteSlot([{ kind: 'bead', hex: '#ffffff' }])
+    })
+  })
+
+  it('rejects palette with reserved kind outside slot 0', () => {
+    assert.throws(() => {
+      assertReservedPaletteSlot([
+        { kind: 'blank', hex: '#ffffff' },
+        { kind: 'background', hex: '#000000' },
+      ])
     })
   })
 })

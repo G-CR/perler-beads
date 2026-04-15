@@ -1,6 +1,8 @@
+import { assertReservedPaletteSlot } from '@perler/shared'
 import type { ExportSheetInput } from './types.ts'
 
 function renderSheetWithLegendAndStats(input: ExportSheetInput): Buffer {
+  assertReservedPaletteSlot(input.palette)
   const shouldExcludeSlot0 = input.palette[0]?.kind === 'blank'
   const stats = input.colorStats.filter((item) => {
     if (shouldExcludeSlot0 && item.paletteIndex === 0) {

@@ -56,3 +56,23 @@ test('renderExportSheet keeps background slot stats when palette slot 0 is backg
     { paletteIndex: 2, count: 1 },
   ])
 })
+
+test('renderExportSheet rejects palette with reserved slot not at index 0', async () => {
+  await assert.rejects(async () => {
+    await renderExportSheet({
+      width: 2,
+      height: 2,
+      cells: [0, 1, 2, 0],
+      palette: [
+        { kind: 'bead', hex: '#000000' },
+        { kind: 'background', hex: '#ff0000' },
+        { kind: 'bead', hex: '#00ff00' },
+      ],
+      colorStats: [
+        { paletteIndex: 0, count: 2 },
+        { paletteIndex: 1, count: 1 },
+        { paletteIndex: 2, count: 1 },
+      ],
+    })
+  })
+})
