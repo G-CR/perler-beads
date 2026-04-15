@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
-import { defaultGenerateParams } from './contracts.ts'
+import { defaultGenerateParams } from './index.ts'
 
 describe('defaultGenerateParams', () => {
   it('starts with a square grid and palette-limited defaults', () => {
