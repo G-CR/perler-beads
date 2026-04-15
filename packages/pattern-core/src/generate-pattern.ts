@@ -35,6 +35,10 @@ function quantizeIntoGrid(input: GeneratePatternInput, palette: PaletteItem[]): 
 
   for (let i = 0; i < size; i += 1) {
     const source = imageBuffer[i % Math.max(1, imageBuffer.length)] ?? 0
+    if (source % 5 === 0) {
+      cells[i] = 0
+      continue
+    }
     cells[i] = (source % beadSlots) + 1
   }
 
