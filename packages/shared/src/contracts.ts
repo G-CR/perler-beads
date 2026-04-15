@@ -24,7 +24,7 @@ export type BackgroundMode = z.infer<typeof backgroundModeSchema>
 export type GenerateParams = z.infer<typeof generateParamsSchema>
 
 export type PaletteItem = {
-  kind: 'background' | 'bead'
+  kind: 'background' | 'blank' | 'bead'
   hex: string
 }
 

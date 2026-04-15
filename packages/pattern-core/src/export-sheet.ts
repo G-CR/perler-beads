@@ -1,9 +1,12 @@
 import type { ExportSheetInput } from './types.ts'
 
 function renderSheetWithLegendAndStats(input: ExportSheetInput): Buffer {
+  const shouldExcludeSlot0 = input.palette[0]?.kind === 'blank'
   const stats = input.colorStats.filter((item) => {
-    const paletteItem = input.palette[item.paletteIndex]
-    return paletteItem?.kind !== 'background' && item.paletteIndex !== 0
+    if (shouldExcludeSlot0 && item.paletteIndex === 0) {
+      return false
+    }
+    return true
   })
 
   return Buffer.from(

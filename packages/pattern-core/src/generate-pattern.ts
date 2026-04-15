@@ -16,8 +16,13 @@ const BASE_PALETTE = [
   '#6a4c93',
 ]
 
-function buildPaletteWithBackground(colorCount: number): PaletteItem[] {
-  const palette: PaletteItem[] = [{ kind: 'background', hex: '#ffffff' }]
+function buildPaletteWithBackground(
+  colorCount: number,
+  mode: GeneratePatternInput['backgroundMode'],
+): PaletteItem[] {
+  const palette: PaletteItem[] = [
+    { kind: mode === 'keep' ? 'background' : 'blank', hex: '#ffffff' },
+  ]
   for (let i = 0; i < colorCount; i += 1) {
     palette.push({
       kind: 'bead',
@@ -78,10 +83,10 @@ async function renderPreviewPng(input: {
 }
 
 export async function generatePattern(input: GeneratePatternInput): Promise<PatternResult> {
-  const palette = buildPaletteWithBackground(input.colorCount)
+  const palette = buildPaletteWithBackground(input.colorCount, input.backgroundMode)
   const cells = quantizeIntoGrid(input, palette)
   const colorStats = countBeads(cells, {
-    excludePaletteIndex: input.backgroundMode === 'remove' ? 0 : undefined,
+    excludePaletteIndex: palette[0]?.kind === 'blank' ? 0 : undefined,
   })
 
   return {
