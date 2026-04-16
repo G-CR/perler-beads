@@ -1,0 +1,30 @@
+<view class="shell-page profile-page">
+  <view class="shell-header">
+    <view>
+      <view class="shell-title">我的</view>
+      <view class="shell-subtitle">当前账号与导出权限状态都放在这里。</view>
+    </view>
+  </view>
+
+  <view class="profile-hero">
+    <view class="profile-avatar">
+      <image
+        wx:if="{{avatarUrl}}"
+        class="profile-avatar-image"
+        src="{{avatarUrl}}"
+        mode="aspectFill"
+      />
+      <view wx:else class="profile-avatar-fallback">{{nickname.slice(0, 1)}}</view>
+    </view>
+    <view class="profile-meta">
+      <view class="profile-name">{{nickname}}</view>
+      <view class="profile-id">用户 ID：{{userId || '尚未登录'}}</view>
+    </view>
+  </view>
+
+  <view class="shell-section">
+    <view class="profile-section-title">导出到相册</view>
+    <view class="profile-section-copy">{{exportPermissionText}}</view>
+    <button class="shell-button" bindtap="refreshPermission">重新检查权限</button>
+  </view>
+</view>

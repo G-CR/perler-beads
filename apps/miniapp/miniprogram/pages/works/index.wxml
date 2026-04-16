@@ -1,0 +1,65 @@
+<view class="shell-page works-page">
+  <view class="shell-header">
+    <view>
+      <view class="shell-title">作品库</view>
+      <view class="shell-subtitle">按收藏和最近编辑快速回到你的当前版本。</view>
+    </view>
+    <button class="works-refresh" bindtap="refreshProjects" size="mini">刷新</button>
+  </view>
+
+  <view class="shell-chip-row">
+    <view
+      wx:for="{{filters}}"
+      wx:key="*this"
+      class="works-filter {{activeFilter === item ? 'works-filter-active' : ''}}"
+      data-filter="{{item}}"
+      bindtap="handleFilterTap"
+    >
+      {{item === 'all' ? '全部' : item === 'favorite' ? '收藏' : '最近'}}
+    </view>
+  </view>
+
+  <view wx:if="{{errorMessage}}" class="works-empty">
+    <view class="works-empty-title">加载失败</view>
+    <view class="works-empty-copy">{{errorMessage}}</view>
+  </view>
+
+  <view wx:elif="{{isLoading}}" class="works-empty">
+    <view class="works-empty-title">正在同步作品</view>
+    <view class="works-empty-copy">从本地 API 拉取你最近保存的拼豆图纸。</view>
+  </view>
+
+  <view wx:elif="{{filteredProjects.length === 0}}" class="works-empty">
+    <view class="works-empty-title">这里还是空的</view>
+    <view class="works-empty-copy">先去创作页上传一张图，再回来继续编辑。</view>
+    <button class="shell-button" bindtap="handleCreateTap">去创作</button>
+  </view>
+
+  <view wx:else class="works-list">
+    <view
+      wx:for="{{filteredProjects}}"
+      wx:key="id"
+      class="works-item"
+      data-id="{{item.id}}"
+      data-version-id="{{item.currentVersionId}}"
+      bindtap="handleOpenProject"
+    >
+      <view class="works-item-main">
+        <view class="works-item-title">{{item.title || '未命名作品'}}</view>
+        <view class="works-item-meta">
+          <text>{{item.updatedAt}}</text>
+          <text wx:if="{{item.currentVersionId}}">可继续编辑</text>
+          <text wx:else>等待生成</text>
+        </view>
+      </view>
+      <button
+        class="works-favorite {{item.isFavorite ? 'works-favorite-active' : ''}}"
+        size="mini"
+        data-id="{{item.id}}"
+        catchtap="handleFavoriteTap"
+      >
+        {{item.isFavorite ? '已收藏' : '收藏'}}
+      </button>
+    </view>
+  </view>
+</view>

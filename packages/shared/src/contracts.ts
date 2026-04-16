@@ -26,11 +26,13 @@ export type GenerateParams = z.infer<typeof generateParamsSchema>
 export type ReservedPaletteItem = {
   kind: 'background' | 'blank'
   hex: string
+  code?: string
 }
 
 export type BeadPaletteItem = {
   kind: 'bead'
   hex: string
+  code?: string
 }
 
 export type PaletteItem = ReservedPaletteItem | BeadPaletteItem

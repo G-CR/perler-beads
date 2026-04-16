@@ -1,0 +1,93 @@
+<view class="shell-page create-page">
+  <view class="shell-header">
+    <view>
+      <view class="shell-title">新建图纸</view>
+      <view class="shell-subtitle">上传一张图，调参数，直接进入拼豆编辑工作台。</view>
+    </view>
+  </view>
+
+  <view class="shell-section">
+    <view class="create-section-title">1. 选择图片</view>
+    <view class="create-section-copy">{{statusText}}</view>
+    <button class="shell-button" bindtap="handleChooseImage">选择图片</button>
+    <image
+      wx:if="{{selectedImagePath}}"
+      class="create-preview"
+      src="{{selectedImagePath}}"
+      mode="aspectFit"
+    />
+  </view>
+
+  <view class="shell-section">
+    <view class="create-section-title">2. 裁剪范围</view>
+    <view class="create-grid">
+      <view class="create-field">
+        <text>X</text>
+        <input data-field="x" value="{{crop.x}}" bindinput="handleCropInput" type="digit" />
+      </view>
+      <view class="create-field">
+        <text>Y</text>
+        <input data-field="y" value="{{crop.y}}" bindinput="handleCropInput" type="digit" />
+      </view>
+      <view class="create-field">
+        <text>宽度</text>
+        <input data-field="width" value="{{crop.width}}" bindinput="handleCropInput" type="digit" />
+      </view>
+      <view class="create-field">
+        <text>高度</text>
+        <input data-field="height" value="{{crop.height}}" bindinput="handleCropInput" type="digit" />
+      </view>
+    </view>
+  </view>
+
+  <view class="shell-section">
+    <view class="create-section-title">3. 生成参数</view>
+    <view class="create-grid">
+      <view class="create-field">
+        <text>格子宽</text>
+        <input
+          data-field="gridWidth"
+          value="{{form.gridWidth}}"
+          bindinput="handleNumberFieldInput"
+          type="number"
+        />
+      </view>
+      <view class="create-field">
+        <text>格子高</text>
+        <input
+          data-field="gridHeight"
+          value="{{form.gridHeight}}"
+          bindinput="handleNumberFieldInput"
+          type="number"
+        />
+      </view>
+      <view class="create-field">
+        <text>颜色数</text>
+        <input
+          data-field="colorCount"
+          value="{{form.colorCount}}"
+          bindinput="handleNumberFieldInput"
+          type="number"
+        />
+      </view>
+      <view class="create-field">
+        <text>细节强度</text>
+        <picker range="{{detailLevelOptions}}" value="{{detailLevelIndex}}" bindchange="handleDetailLevelChange">
+          <view class="create-picker">{{form.detailLevel}}</view>
+        </picker>
+      </view>
+      <view class="create-field create-field-full">
+        <text>背景处理</text>
+        <picker range="{{backgroundOptions}}" value="{{backgroundIndex}}" bindchange="handleBackgroundModeChange">
+          <view class="create-picker">{{form.backgroundMode}}</view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <view class="shell-section">
+    <button class="shell-button" loading="{{isSubmitting}}" bindtap="handleGenerate">
+      开始生成
+    </button>
+  </view>
+</view>

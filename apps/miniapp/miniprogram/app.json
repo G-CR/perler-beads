@@ -1,0 +1,35 @@
+{
+  "pages": [
+    "pages/create/index",
+    "pages/works/index",
+    "pages/profile/index",
+    "pages/editor/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "拼豆图纸",
+    "navigationBarBackgroundColor": "#f6f1e8",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f4efe6",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#72594b",
+    "selectedColor": "#1d6f5f",
+    "backgroundColor": "#fbf7f1",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/create/index",
+        "text": "创作"
+      },
+      {
+        "pagePath": "pages/works/index",
+        "text": "作品"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  }
+}

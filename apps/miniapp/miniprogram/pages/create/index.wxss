@@ -1,0 +1,54 @@
+.create-page {
+  padding-top: 36rpx;
+}
+
+.create-section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.create-section-copy {
+  margin: 12rpx 0 24rpx;
+  color: #7a685c;
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
+.create-preview {
+  width: 100%;
+  height: 420rpx;
+  margin-top: 28rpx;
+  border-radius: 28rpx;
+  background: rgba(43, 36, 29, 0.06);
+}
+
+.create-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20rpx;
+  margin-top: 22rpx;
+}
+
+.create-field {
+  padding: 20rpx;
+  border-radius: 24rpx;
+  background: rgba(251, 247, 241, 0.85);
+}
+
+.create-field-full {
+  grid-column: span 2;
+}
+
+.create-field text {
+  display: block;
+  margin-bottom: 12rpx;
+  color: #72594b;
+  font-size: 22rpx;
+}
+
+.create-field input,
+.create-picker {
+  min-height: 44rpx;
+  font-size: 28rpx;
+  line-height: 1.4;
+}

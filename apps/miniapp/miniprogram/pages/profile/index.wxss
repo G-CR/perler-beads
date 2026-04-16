@@ -1,0 +1,63 @@
+.profile-page {
+  padding-top: 36rpx;
+}
+
+.profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 18rpx 0 34rpx;
+}
+
+.profile-avatar {
+  width: 116rpx;
+  height: 116rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(145deg, #1d6f5f, #d1eadc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-avatar-image,
+.profile-avatar-fallback {
+  width: 100%;
+  height: 100%;
+}
+
+.profile-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fbf7f1;
+  font-size: 42rpx;
+  font-weight: 700;
+}
+
+.profile-meta {
+  flex: 1;
+}
+
+.profile-name {
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.profile-id {
+  margin-top: 10rpx;
+  color: #7a685c;
+  font-size: 22rpx;
+}
+
+.profile-section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.profile-section-copy {
+  margin: 12rpx 0 26rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: #7a685c;
+}

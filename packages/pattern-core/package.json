@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@perler/shared": "0.0.0"
+    "@perler/shared": "0.0.0",
+    "sharp": "^0.34.5"
   },
   "scripts": {
     "test": "node --test"

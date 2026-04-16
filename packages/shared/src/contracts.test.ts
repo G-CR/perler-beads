@@ -40,7 +40,7 @@ describe('assertReservedPaletteSlot', () => {
     assert.doesNotThrow(() => {
       assertReservedPaletteSlot([
         { kind: 'background', hex: '#ffffff' },
-        { kind: 'bead', hex: '#000000' },
+        { kind: 'bead', hex: '#000000', code: 'M5' },
       ])
     })
   })

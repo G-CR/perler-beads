@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Project {
+  id               String           @id @default(cuid())
+  userId           String
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title            String
+  sourceImageUrl   String
+  coverImageUrl    String?
+  isFavorite       Boolean          @default(false)
+  currentVersionId String?
+  currentVersion   ProjectVersion?  @relation("CurrentProjectVersion", fields: [id, currentVersionId], references: [projectId, id])
+  versions         ProjectVersion[] @relation("ProjectVersions")
+  exports          ExportRecord[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  @@index([userId])
+}
+
+model ProjectVersion {
+  id                 String         @id @default(cuid())
+  projectId          String
+  project            Project        @relation("ProjectVersions", fields: [projectId], references: [id], onDelete: Cascade)
+  versionNo          Int
+  sourceType         String
+  paramsSnapshot     Json
+  gridData           Json
+  paletteData        Json
+  colorStats         Json
+  previewImageUrl    String
+  exports            ExportRecord[]
+  currentForProjects Project[]      @relation("CurrentProjectVersion")
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  @@index([projectId])
+  @@unique([projectId, id])
+  @@unique([projectId, versionNo])
+}
+
+model ExportRecord {
+  id             String         @id @default(cuid())
+  projectId      String
+  versionId      String
+  exportImageUrl String
+  project        Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  version        ProjectVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([projectId])
+  @@index([versionId])
+}
+
+model User {
+  id        String    @id @default(cuid())
+  projects  Project[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}

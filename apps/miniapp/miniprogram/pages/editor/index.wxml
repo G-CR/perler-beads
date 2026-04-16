@@ -1,0 +1,77 @@
+<view class="shell-page editor-page">
+  <view class="shell-header">
+    <view>
+      <view class="shell-title">编辑图纸</view>
+      <view class="shell-subtitle">当前版本：{{versionId || '加载中'}}{{dirty ? ' · 有未保存修改' : ''}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="editor-loading">
+    正在加载当前版本...
+  </view>
+
+  <view wx:else>
+    <view class="editor-toolbar">
+      <view
+        wx:for="{{tools}}"
+        wx:key="*this"
+        class="editor-tool {{tool === item ? 'editor-tool-active' : ''}}"
+        data-tool="{{item}}"
+        bindtap="handleSelectTool"
+      >
+        {{item}}
+      </view>
+    </view>
+
+    <view class="editor-action-row">
+      <button class="editor-action" bindtap="handleUndo">撤销</button>
+      <button class="editor-action" bindtap="handleRedo">重做</button>
+      <button class="editor-action editor-action-primary" loading="{{isBusy}}" bindtap="handleSave">
+        保存为新版本
+      </button>
+      <button class="editor-action editor-action-primary" loading="{{isBusy}}" bindtap="handleExport">
+        导出图片
+      </button>
+    </view>
+
+    <scroll-view scroll-x class="editor-canvas-wrap">
+      <view class="editor-canvas">
+        <view wx:for="{{cellRows}}" wx:key="index" class="editor-row">
+          <view
+            wx:for="{{item}}"
+            wx:key="index"
+            class="editor-cell"
+            data-index="{{item.index}}"
+            data-color-index="{{item.colorIndex}}"
+            bindtap="handleTapCell"
+            style="background: {{item.hex}};"
+          />
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="shell-section">
+      <view class="create-section-title">颜色面板</view>
+      <view class="editor-palette">
+        <view
+          wx:for="{{palette}}"
+          wx:key="index"
+          class="editor-palette-item {{selectedColor === item.index ? 'editor-palette-item-active' : ''}}"
+          data-index="{{item.index}}"
+          bindtap="handleSelectColor"
+        >
+          <view class="editor-palette-swatch" style="background: {{item.hex}};" />
+          <view class="editor-palette-meta">
+            <view>{{item.name}}</view>
+            <view class="editor-palette-kind">{{item.kind}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{exportImageUrl}}" class="shell-section">
+      <view class="create-section-title">最近导出</view>
+      <view class="create-section-copy">{{exportImageUrl}}</view>
+    </view>
+  </view>
+</view>
