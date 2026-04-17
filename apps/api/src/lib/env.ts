@@ -5,6 +5,7 @@ export interface AppEnv {
   port: number
   databaseUrl: string
   storageRoot: string
+  allowDemoLogin: boolean
 }
 
 function parsePort(raw: string | undefined): number {
@@ -13,6 +14,14 @@ function parsePort(raw: string | undefined): number {
     return 3000
   }
   return parsed
+}
+
+function parseBoolean(raw: string | undefined): boolean {
+  if (!raw) {
+    return false
+  }
+
+  return ['1', 'true', 'yes', 'on'].includes(raw.trim().toLowerCase())
 }
 
 export function readEnv(input: NodeJS.ProcessEnv = process.env): AppEnv {
@@ -24,5 +33,6 @@ export function readEnv(input: NodeJS.ProcessEnv = process.env): AppEnv {
     port: parsePort(input.PORT),
     databaseUrl,
     storageRoot,
+    allowDemoLogin: parseBoolean(input.ALLOW_DEMO_LOGIN),
   }
 }

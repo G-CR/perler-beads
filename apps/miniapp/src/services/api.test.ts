@@ -32,7 +32,7 @@ function installMiniProgramApiStub() {
 
   globalScope.getApp = () => ({
     globalData: {
-      apiBaseUrl: 'http://127.0.0.1:3000',
+      apiBaseUrl: 'http://183.66.27.19:27099',
     },
   })
   globalScope.wx = {
@@ -70,7 +70,7 @@ test('exportVersion sends an explicit empty payload for mini program POST reques
 
   assert.equal(result.exportImageUrl, '/exports/ver_123.png')
   assert.equal(requests.length, 1)
-  assert.equal(requests[0]?.url, 'http://127.0.0.1:3000/versions/ver_123/export')
+  assert.equal(requests[0]?.url, 'http://183.66.27.19:27099/versions/ver_123/export')
   assert.equal(requests[0]?.method, 'POST')
   assert.equal(requests[0]?.header?.authorization, 'Bearer test-token')
   assert.deepEqual(requests[0]?.data, {})

@@ -1,6 +1,6 @@
 const { clearSession, loadSession, saveSession } = require('./session.js')
 
-const DEFAULT_API_BASE_URL = 'http://127.0.0.1:3000'
+const DEFAULT_API_BASE_URL = 'http://183.66.27.19:27099'
 
 function getApiBaseUrl() {
   try {

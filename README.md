@@ -62,7 +62,7 @@ npm test -w @perler/miniapp
 
 1. 打开微信开发者工具。
 2. 选择 [`apps/miniapp/project.config.json`](./apps/miniapp/project.config.json) 作为项目配置。
-3. 确认本地 API 已启动在 `http://127.0.0.1:3000`。
+3. 确认小程序当前请求的 API 地址为 `http://183.66.27.19:27099`。
 4. 在开发环境中，当前登录链路使用后端内置的 `demo-code` 开发登录。
 5. 按主链路手工验证：
    - 创作页选图
@@ -71,6 +71,10 @@ npm test -w @perler/miniapp
    - 保存为新版本
    - 导出图片到相册
    - 返回作品页确认 `currentVersionId` 已刷新
+
+注意：`http://183.66.27.19:27099` 是当前联调地址。微信小程序正式发布前，请切换为已备案并配置到小程序合法域名里的 HTTPS 域名；HTTP IP 只能用于开发阶段或受限调试场景。
+
+如果你把 API 部署到非开发环境，但暂时还没接入真实微信登录，请在服务端环境变量中显式设置 `ALLOW_DEMO_LOGIN=true`，否则小程序当前发送的 `demo-code` 会被后端拒绝，并显示 `Invalid code` 或 `Demo login disabled`。
 
 ## 当前 MVP 范围
 

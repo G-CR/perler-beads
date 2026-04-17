@@ -135,14 +135,18 @@ export async function registerAuthRoutes(app: FastifyInstance): Promise<void> {
       reply.code(400)
       return { message: 'Invalid code' }
     }
-    const isDevelopment = process.env.NODE_ENV === 'development'
-    if (code === DEV_DEMO_CODE && !isDevelopment) {
-      reply.code(401)
-      return { message: 'Invalid code' }
-    }
+
+    const demoLoginEnabled =
+      process.env.NODE_ENV === 'development' || app.env.allowDemoLogin
+
     if (code !== DEV_DEMO_CODE) {
       reply.code(401)
       return { message: 'Invalid code' }
+    }
+
+    if (!demoLoginEnabled) {
+      reply.code(401)
+      return { message: 'Demo login disabled' }
     }
 
     const user = await app.db.user.create({ data: {} })

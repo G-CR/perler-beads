@@ -22,6 +22,8 @@ const previousEnv = {
   databaseUrl: process.env.DATABASE_URL,
   storageRoot: process.env.STORAGE_ROOT,
   nodeEnv: process.env.NODE_ENV,
+  authTokenSecret: process.env.AUTH_TOKEN_SECRET,
+  allowDemoLogin: process.env.ALLOW_DEMO_LOGIN,
 }
 
 let testDbFilePath = ''
@@ -90,6 +92,18 @@ after(async () => {
     delete process.env.NODE_ENV
   } else {
     process.env.NODE_ENV = previousEnv.nodeEnv
+  }
+
+  if (previousEnv.authTokenSecret === undefined) {
+    delete process.env.AUTH_TOKEN_SECRET
+  } else {
+    process.env.AUTH_TOKEN_SECRET = previousEnv.authTokenSecret
+  }
+
+  if (previousEnv.allowDemoLogin === undefined) {
+    delete process.env.ALLOW_DEMO_LOGIN
+  } else {
+    process.env.ALLOW_DEMO_LOGIN = previousEnv.allowDemoLogin
   }
 
   if (testDbFilePath) {
@@ -417,6 +431,50 @@ test('buildApp fails fast when auth secret is missing in non-development env', a
       delete process.env.AUTH_TOKEN_SECRET
     } else {
       process.env.AUTH_TOKEN_SECRET = previousAuthTokenSecret
+    }
+  }
+})
+
+test('production app can accept demo login when ALLOW_DEMO_LOGIN is enabled', async () => {
+  const previousNodeEnv = process.env.NODE_ENV
+  const previousAuthTokenSecret = process.env.AUTH_TOKEN_SECRET
+  const previousAllowDemoLogin = process.env.ALLOW_DEMO_LOGIN
+
+  process.env.NODE_ENV = 'production'
+  process.env.AUTH_TOKEN_SECRET = 'perler-test-secret'
+  process.env.ALLOW_DEMO_LOGIN = 'true'
+
+  const app = await buildApp()
+
+  try {
+    const login = await app.inject({
+      method: 'POST',
+      url: '/auth/wechat-login',
+      payload: { code: 'demo-code' },
+    })
+
+    assert.equal(login.statusCode, 200)
+    assert.equal(typeof login.json().token, 'string')
+    assert.equal(typeof login.json().userId, 'string')
+  } finally {
+    await app.close()
+
+    if (previousNodeEnv === undefined) {
+      delete process.env.NODE_ENV
+    } else {
+      process.env.NODE_ENV = previousNodeEnv
+    }
+
+    if (previousAuthTokenSecret === undefined) {
+      delete process.env.AUTH_TOKEN_SECRET
+    } else {
+      process.env.AUTH_TOKEN_SECRET = previousAuthTokenSecret
+    }
+
+    if (previousAllowDemoLogin === undefined) {
+      delete process.env.ALLOW_DEMO_LOGIN
+    } else {
+      process.env.ALLOW_DEMO_LOGIN = previousAllowDemoLogin
     }
   }
 })
